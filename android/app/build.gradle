@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.garatapublishinghouse"
+    namespace "com.funshop.app"
     defaultConfig {
-        applicationId "com.garatapublishinghouse"
+        applicationId "com.funshop.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

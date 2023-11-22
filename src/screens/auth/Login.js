@@ -22,7 +22,7 @@ import Lottie from 'lottie-react-native';
 
 export default function Login({navigation}) {
   const [showPassword, setShowPassword] = useState(false);
-  const [mobile, setMobile] = useState(null);
+  const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [loader, setLoader] = useState(false);
 
@@ -32,19 +32,17 @@ export default function Login({navigation}) {
 
     await axios
       .post(`${REACT_APP_BASE_URL}/login`, {
-        mobile: mobile,
+        email: email,
         password: password,
       })
       .then(async res => {
         console.log(res.data);
-        await AsyncStorage.setItem('@id', res.data._id);
-        await AsyncStorage.setItem('@jwt', res.data.token);
-        await AsyncStorage.setItem('@role', res.data.role);
-        await AsyncStorage.setItem('@email', res.data.email);
-        await AsyncStorage.setItem('@firstName', res.data.firstName);
-        await AsyncStorage.setItem('@lastName', res.data.lastName);
-        await AsyncStorage.setItem('@mobile', res.data.mobile);
-        const value = await AsyncStorage.getItem('@firstName');
+        // await AsyncStorage.setItem('@id', res.data._id);
+        // await AsyncStorage.setItem('@jwt', res.data.token);
+        // await AsyncStorage.setItem('@role', res.data.role);
+        // await AsyncStorage.setItem('@email', res.data.email);
+        // await AsyncStorage.setItem('@name', res.data.name);
+        const value = await AsyncStorage.getItem('@name');
         console.log(value);
 
         // console.log(res.data.firstName)
@@ -75,42 +73,48 @@ export default function Login({navigation}) {
   return (
     <SafeAreaView>
       {!loader ? (
-        <ScrollView>
+        <View>
           <View
             style={{
               backgroundColor: '#FFF',
+              height: '100%',
               paddingHorizontal: 20,
-              paddingTop: 70,
-              flex: 1,
+              paddingTop: 20,
             }}>
-            <View style={{height: 40}}>
-              <Text
-                style={{
-                  fontSize: 35,
-                  color: '#000',
-                  fontFamily: 'Poppins-SemiBold',
-                }}>
-                Garata!
-              </Text>
-            </View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                resizeMode="contain"
+                style={{width: 25, height: 25, marginBottom: 20}}
+                source={IMAGES.back}
+              />
+            </TouchableOpacity>
             <Text
               style={{
-                fontSize: 14.5,
+                fontSize: 20,
                 fontWeight: '600',
                 color: '#000',
                 fontFamily: 'Poppins-SemiBold',
               }}>
-              Publishing House
+              Welcome to,{' '}
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: '600',
+                  color: COLORS.primary,
+                  fontFamily: 'Poppins-SemiBold',
+                }}>
+                FunShop
+              </Text>
             </Text>
-            <Text style={[STYLES.h2, {marginTop: 25}]}>Login</Text>
-            <Text style={[STYLES.text, {marginBottom: 30}]}>
-              Please Login to your GPH Account
+            {/* <Text style={[STYLES.h2, {marginTop: 25}]}>Create Account</Text> */}
+            <Text style={[STYLES.text, {marginBottom: 10}]}>
+              Welcome back, Lets Sign in First!
             </Text>
             <View>
-              <Text style={STYLES.h3}>Phone Number</Text>
+              <Text style={STYLES.h3}>Email</Text>
               <TextField
-                onChangeText={text => setMobile(text)}
-                label="Enter Your Phone Number"
+                onChangeText={text => setEmail(text)}
+                label="Enter Your Email"
               />
             </View>
             <View>
@@ -165,13 +169,13 @@ export default function Login({navigation}) {
             <TouchableOpacity
               style={[STYLES.button, {marginTop: 32}]}
               onPress={() => {
-                if (mobile !== null && password !== null) {
+                if (email !== null && password !== null) {
                   login();
                 } else {
                   Alert.alert(
                     'Incomplete Credentials',
                     `${
-                      mobile
+                      email
                         ? 'Please enter your phone number and password.'
                         : 'Please enter your phone number and password.'
                     }`,
@@ -220,7 +224,7 @@ export default function Login({navigation}) {
                   style={[
                     STYLES.text,
                     {
-                      color: COLORS.darkblack,
+                      color: COLORS.primary,
                       fontFamily: 'Poppins-SemiBold',
                     },
                   ]}>
@@ -250,7 +254,7 @@ export default function Login({navigation}) {
               />
               <Text style={STYLES.h3}>Sign In with Google</Text>
             </View>
-            <View
+            {/* <View
               style={[
                 STYLES.button,
                 {
@@ -271,12 +275,13 @@ export default function Login({navigation}) {
                 source={IMAGES.fbIcon}
               />
               <Text style={STYLES.h3}>Sign In with Facebook</Text>
-            </View>
+            </View> */}
           </View>
-        </ScrollView>
+        </View>
       ) : (
         <View
           style={{
+            height: '100%',
             minHeight: '100%',
             justifyContent: 'center',
             alignItems: 'center',
@@ -284,8 +289,8 @@ export default function Login({navigation}) {
           <Lottie
             resizeMode="cover"
             style={{
-              width: 70,
-              height: 70,
+              width: 220,
+              height: 220,
             }}
             source={require('../../../assets/images/loader.json')}
             loop={true}
@@ -295,7 +300,7 @@ export default function Login({navigation}) {
             style={{width: 70, height: 70}}
             source={require('../../../assets/images/waiting.png')}
           /> */}
-          <Text style={STYLES.h2}>Please Wait</Text>
+          {/* <Text style={STYLES.h2}>FunShop</Text> */}
         </View>
       )}
     </SafeAreaView>

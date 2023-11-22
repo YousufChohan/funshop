@@ -6,7 +6,7 @@ import {COLORS} from '../constants/theme';
 export default function InputField(props) {
   return (
     <TextInput
-      theme={{roundness: 50}}
+      theme={{roundness: 16}}
       mode="outlined"
       activeOutlineColor={COLORS.primary}
       outlineColor={'#E7EAF2'}

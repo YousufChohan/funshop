@@ -8,7 +8,6 @@ export const STYLES = {
     fontFamily: 'Poppins-SemiBold',
   },
   h3: {
-    marginTop: 10,
     fontSize: 14,
     fontWeight: '600',
     color: COLORS.black,
@@ -22,7 +21,7 @@ export const STYLES = {
   button: {
     padding: 15,
     backgroundColor: COLORS.primary,
-    borderRadius: 50,
+    borderRadius: 12,
     textAlign: 'center',
   },
   button2: {

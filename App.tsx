@@ -30,7 +30,8 @@ function MyTabBar({state, descriptors, navigation}: MyTabBarProps) {
     <View
       style={{
         flexDirection: 'row',
-        height: 70,
+        height: 60,
+        backgroundColor: COLORS.white,
         alignItems: 'center',
         justifyContent: 'space-evenly',
       }}>
@@ -76,29 +77,33 @@ function MyTabBar({state, descriptors, navigation}: MyTabBarProps) {
             {isFocused ? (
               <Image
                 resizeMode="contain"
-                style={{width: 30, height: 30}}
+                style={{width: 25, height: 25}}
                 source={
                   label == 'Home'
                     ? require('./assets/images/home-f.png')
                     : label == 'Favourites'
                     ? require('./assets/images/star-f.png')
-                    : require('./assets/images/calendar-f.png')
+                    : label == 'Explore'
+                    ? require('./assets/images/search-f.png')
+                    : require('./assets/images/profile-f.png')
                 }
               />
             ) : (
               <Image
                 resizeMode="contain"
-                style={{width: 30, height: 30}}
+                style={{width: 25, height: 25}}
                 source={
                   label == 'Home'
                     ? require('./assets/images/home-u.png')
                     : label == 'Favourites'
                     ? require('./assets/images/star-u.png')
-                    : require('./assets/images/calendar-u.png')
+                    : label == 'Explore'
+                    ? require('./assets/images/search-u.png')
+                    : require('./assets/images/profile-u.png')
                 }
               />
             )}
-            <Text
+            {/* <Text
               style={[
                 STYLES.text,
                 {
@@ -107,7 +112,7 @@ function MyTabBar({state, descriptors, navigation}: MyTabBarProps) {
                 },
               ]}>
               {label}
-            </Text>
+            </Text> */}
           </TouchableOpacity>
         );
       })}
@@ -122,6 +127,7 @@ function HomeTabs() {
       screenOptions={{headerShown: false}}
       tabBar={props => <MyTabBar {...props} />}>
       <Tab.Screen name="Home" component={Home} options={{headerShown: false}} />
+      <Tab.Screen name="Explore" component={Explore} />
       <Tab.Screen
         name="Favourites"
         component={Favourites}
@@ -132,6 +138,7 @@ function HomeTabs() {
         component={Orders}
         options={{headerShown: false}}
       />
+
       {/* <Tab.Screen
         name="Options"
         component={Home}
@@ -146,7 +153,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Screen name="OnBoarding" component={OnBoarding} />
+
+        {/* <Stack.Screen name="OnBoarding" component={OnBoarding} /> */}
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen
           name="SingleProduct"
@@ -154,7 +162,7 @@ export default function App() {
         />
         <Stack.Screen name="SignUp" component={SignUp} />
         {/* <Stack.Screen name="Home" component={Home} /> */}
-        <Stack.Screen name="Explore" component={Explore} />
+        {/* <Stack.Screen name="Explore" component={Explore} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

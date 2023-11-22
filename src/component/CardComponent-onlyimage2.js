@@ -18,7 +18,7 @@ const CardImageComponent2 = ({item}) => {
   const [image, setImage] = useState('');
 
   // console.log('Item is here', item);
-
+  console.log(item.productPicture[0], 'dsgsfdds');
   useLayoutEffect(() => {
     async function getProductImages() {
       axios

@@ -22,33 +22,32 @@ import axios from 'axios';
 export default function SignUp({navigation}) {
   const [showPassword, setShowPassword] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // State to control the modal
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
+  const [name, setName] = useState(null);
+  // const [lastName, setLastName] = useState(null);
   const [mobile, setMobile] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [confirmpassword, setConfirmPassword] = useState(null);
+
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
   async function signUp() {
     console.log(REACT_APP_BASE_URL);
-    console.log(firstName);
+    console.log(name);
     // console.log(lastName);
     // console.log(mobile);
     // console.log(email);
     await axios
       .post(`${REACT_APP_BASE_URL}/signup`, {
-        firstName: firstName,
-        lastName: lastName,
-        mobile: mobile,
+        name: name,
         email: email,
         password: password,
         role: 'Customer',
       })
       .then(async res => {
-        console.log(firstName);
-        console.log(lastName);
+        console.log(name);
         console.log(mobile);
         console.log(email);
         // console.log(password);
@@ -75,22 +74,22 @@ export default function SignUp({navigation}) {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <View>
         <View
           style={{
             backgroundColor: '#FFF',
             paddingHorizontal: 20,
             paddingTop: 30,
-            flex: 1,
+            height: '100%',
           }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               resizeMode="contain"
-              style={{width: 25, height: 25}}
+              style={{width: 25, height: 25, marginBottom: 20}}
               source={IMAGES.back}
             />
           </TouchableOpacity>
-          <View style={{height: 40}}>
+          {/* <View style={{height: 40}}>
             <Text
               style={{
                 fontSize: 35,
@@ -99,32 +98,34 @@ export default function SignUp({navigation}) {
               }}>
               Garata!
             </Text>
-          </View>
+          </View> */}
           <Text
             style={{
-              fontSize: 14.5,
+              fontSize: 20,
               fontWeight: '600',
               color: '#000',
               fontFamily: 'Poppins-SemiBold',
             }}>
-            Publishing House
+            Welcome to,{' '}
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: '600',
+                color: COLORS.primary,
+                fontFamily: 'Poppins-SemiBold',
+              }}>
+              FunShop
+            </Text>
           </Text>
-          <Text style={[STYLES.h2, {marginTop: 25}]}>Create Account</Text>
-          <Text style={[STYLES.text, {marginBottom: 30}]}>
-            Please complete the registration form first.{' '}
+          {/* <Text style={[STYLES.h2, {marginTop: 25}]}>Create Account</Text> */}
+          <Text style={[STYLES.text, {marginBottom: 10}]}>
+            Hi, let’s create an account first!
           </Text>
           <View>
-            <Text style={STYLES.h3}>First Name</Text>
+            <Text style={STYLES.h3}>Name</Text>
             <TextField
-              onChangeText={text => setFirstName(text)}
-              label="Enter Your First Name"
-            />
-          </View>
-          <View>
-            <Text style={STYLES.h3}>Last Name</Text>
-            <TextField
-              onChangeText={text => setLastName(text)}
-              label="Enter Your Last Name"
+              onChangeText={text => setName(text)}
+              label="Enter Your Name"
             />
           </View>
           <View>
@@ -134,13 +135,13 @@ export default function SignUp({navigation}) {
               label="Enter Your Email Address"
             />
           </View>
-          <View>
+          {/* <View>
             <Text style={STYLES.h3}>Phone Number</Text>
             <TextField
               onChangeText={text => setMobile(text)}
               label="Enter Your Phone Number"
             />
-          </View>
+          </View> */}
           <View>
             <Text style={STYLES.h3}>Password</Text>
             <TextField
@@ -173,25 +174,64 @@ export default function SignUp({navigation}) {
               }
             />
           </View>
-
+          <View>
+            <Text style={STYLES.h3}>Confirm Password</Text>
+            <TextField
+              onChangeText={text => setConfirmPassword(text)}
+              label="Enter Your Password Again"
+              secureTextEntry={showPassword ? false : true}
+              right={
+                <TextInput.Icon
+                  name={() => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}>
+                      {showPassword ? (
+                        <Image
+                          resizeMode="contain"
+                          style={{width: 25}}
+                          source={IMAGES.passshow}
+                        />
+                      ) : (
+                        <Image
+                          resizeMode="contain"
+                          style={{width: 25}}
+                          source={IMAGES.passhide}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  )}
+                />
+              }
+            />
+            {password == confirmpassword ? (
+              <Text style={[STYLES.h3, {color: COLORS.primary, marginTop: 0}]}>
+                Passwords matched!
+              </Text>
+            ) : (
+              <Text style={[STYLES.text, {color: COLORS.black}]}>
+                Passwords do not match.
+              </Text>
+            )}
+          </View>
           <TouchableOpacity
-            style={[STYLES.button, {marginVertical: 32}]}
+            style={[STYLES.button, {marginVertical: 12}]}
             onPress={() => {
               if (
-                firstName !== null &&
-                lastName !== null &&
+                name !== null &&
                 email !== null &&
-                mobile !== null &&
-                password !== null
+                password !== null &&
+                password == confirmpassword
               ) {
                 signUp();
               } else {
                 Alert.alert(
                   'Incomplete Form',
                   `${
-                    firstName
-                      ? 'Please fill all the fields first'
-                      : 'Please fill all the fields first'
+                    name
+                      ? 'Please complete all the requirements'
+                      : 'Please complete all the requirements'
                   }`,
                   [
                     {
@@ -202,28 +242,86 @@ export default function SignUp({navigation}) {
                 );
               }
             }}>
-            <Text style={STYLES.buttonText}>Create Account</Text>
+            <Text style={STYLES.buttonText}>Sign Up</Text>
           </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 5,
+            }}>
+            <View style={{flex: 1, height: 1, backgroundColor: COLORS.grey}} />
+            <Text
+              style={[STYLES.text, {alignSelf: 'center', marginHorizontal: 5}]}>
+              Or
+            </Text>
+            <View style={{flex: 1, height: 1, backgroundColor: COLORS.grey}} />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 20,
+            }}>
+            <Text style={[STYLES.h3, {marginTop: 0}]}>
+              Already have an account?{' '}
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text
+                style={[
+                  STYLES.text,
+                  {
+                    color: COLORS.primary,
+                    fontFamily: 'Poppins-SemiBold',
+                  },
+                ]}>
+                Sign In
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={[
+              STYLES.button,
+              {
+                backgroundColor: COLORS.white,
+                marginVertical: 20,
+                borderColor: '#E7EAF2',
+                borderWidth: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignContent: 'center',
+                alignItems: 'center',
+                gap: 10,
+              },
+            ]}>
+            <Image
+              resizeMode="contain"
+              style={{width: 30}}
+              source={IMAGES.googleIcon}
+            />
+            <Text style={STYLES.h3}>Sign In with Google</Text>
+          </View>
         </View>
-      </ScrollView>
+      </View>
       <Modal visible={isModalVisible} animationType="slide" transparent={false}>
-        <View style={{height: '40%'}}></View>
+        <View style={{height: '80%', borderTopRightRadius: 20}}></View>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Image
               resizeMode="contain"
               style={{width: 250, marginBottom: 20}}
-              source={require('../../../assets/images/successfullycreated.png')}
+              source={require('../../../assets/images/done.png')}
             />
-            <Text style={STYLES.h2}>Account Successfully Created! </Text>
+            <Text style={STYLES.h2}>You are Successfully Signed Up! </Text>
             <Text style={[STYLES.text, {textAlign: 'center', marginTop: 12}]}>
-              You’ve successfully create your account? Please login to your
-              account.
+              Your account has been{'\n'}successfully created.
             </Text>
             <TouchableOpacity
-              style={[STYLES.button, {marginTop: 100, width: '100%'}]}
+              style={[STYLES.button, {marginTop: 50, width: '100%'}]}
               onPress={() => navigation.navigate('Login')}>
-              <Text style={STYLES.buttonText}>Login Now</Text>
+              <Text style={STYLES.buttonText}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -238,12 +336,18 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: '60%',
     bottom: 0,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+
     alignItems: 'center',
     backgroundColor: COLORS.white,
   },
   modalContent: {
     alignSelf: 'flex-end',
     width: '100%',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+
     backgroundColor: COLORS.white,
     padding: 20,
     alignItems: 'center',
